@@ -2,16 +2,10 @@ FROM ubuntu:trusty
 MAINTAINER Durga Prasad R <durga0415@gmail.com>
 
 # Install packages
-RUN apt-get update 
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install supervisor 
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install git 
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install apache2=2.4.7-1ubuntu4.1
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install libapache2-mod-php5
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server=5.5.40-0ubuntu0.14.04.1
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install php5-mysql=5.5.9+dfsg-1ubuntu4.4
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install pwgen 
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install php-apc=4.0.2-2build1
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install openssl
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update && \
+  apt-get -y install supervisor git apache2 libapache2-mod-php5 mysql-server php5-mysql pwgen php-apc php5-mcrypt && \
+  echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Add image configuration and scripts
 ADD start-apache2.sh /start-apache2.sh
